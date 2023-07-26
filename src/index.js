@@ -27,10 +27,10 @@ const get_access_token = async _ => {
 	else throw new Error('Failed to fetch');
 };
 
-const spotify_post = async (url, token) => {
+const spotify_get = async (url, token) => {
 	const full_url = URL_BASE + url;
 	const authOptions = {
-		method: 'POST',
+		method: 'GET',
 		headers: {
 			Authorization: `Bearer ${token}`,
 		},
@@ -40,17 +40,21 @@ const spotify_post = async (url, token) => {
 	const data = await response.json();
 
 	if (response.ok) return data;
-	else throw new Error(`Post to ${url} failed!`);
+	else throw new Error(`Get request to ${url} failed!`);
 };
 
 const get_playlist_content = async (playlistID, token) => {
-	const data = spotify_post(
-		`${URL_BASE}/playlists/${playlistID}/tracks`,
-		token,
-	);
+	const data = await spotify_get(`/playlists/${playlistID}/tracks`, token);
+
+	return data;
 };
 
-const token = get_access_token();
+const main = async _ => {
+	const token = await get_access_token();
 
-const playlistID = '4NAeFwwinX6tS5RN5voNbg';
-const user_playlists = get_playlist_content(playlistID, token);
+	const playlistID = '4NAeFwwinX6tS5RN5voNbg';
+	const user_playlists = await get_playlist_content(playlistID, token);
+	console.log(user_playlists);
+};
+
+main();
