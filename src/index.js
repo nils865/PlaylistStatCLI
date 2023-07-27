@@ -5,6 +5,14 @@ const CLIENT_SECRET = process.env.CLIENT_SECRET;
 
 const URL_BASE = 'https://api.spotify.com/v1';
 
+const sort_object = obj => {
+    const keyValueArray = Object.entries(obj)
+
+    keyValueArray.sort((a, b) => b[1] - a[1])
+
+    return Object.fromEntries(keyValueArray)
+}
+
 const get_access_token = async _ => {
 	const credentials = `${CLIENT_ID}:${CLIENT_SECRET}`;
 	const encoded_credentials = Buffer.from(credentials).toString('base64');
@@ -148,7 +156,7 @@ const main = async _ => {
     const all_songs = await get_all_user_songs(userPlaylists, token)
     const artist_count = await artist_counter(all_songs)
 
-    console.log (artist_count)
+    console.log(sort_object(artist_count))
 };
 
 main();
