@@ -75,7 +75,25 @@ const artist_counter = async playlist => {
     for (let i = 0; i < playlist.length; i++) {
         const song = playlist[i]
 
-        if (song in finished_songs) continue
+        let skip = false
+        finished_songs.forEach(current_song => {
+            if (current_song.title === song.title) {
+                let next = false
+
+                for (let j = 0; j < current_song.artists.length; j++) {
+                    if (current_song.artists[j] !== song.artists[j]) {
+                        next = true
+                        break
+                    }
+                }
+
+                if (!next) {
+                    skip = true
+                }
+            }
+        })
+
+        if (skip) continue
 
         song.artists.forEach(artist => {
             if (artist in artists) artists[artist]++
@@ -100,6 +118,22 @@ const get_user_playlists = async (userID, token) => {
     return playlists;
 }
 
+const get_all_user_songs = async (playlists, token) => {
+    const all_songs = []
+
+    for (let i = 0; i < playlists.length; i++) {
+        const id = playlists[i];
+
+        const content = await get_playlist_content(id, token)
+        
+        content.forEach(song => {
+            all_songs.push(song)
+        })
+    }
+
+    return all_songs
+}
+
 const main = async _ => {
 	const token = await get_access_token();
 
@@ -111,8 +145,10 @@ const main = async _ => {
 
     const userID = '31vcslluzy32h77ak63kmdq4uqgq'
     const userPlaylists = await get_user_playlists(userID, token)
+    const all_songs = await get_all_user_songs(userPlaylists, token)
+    const artist_count = await artist_counter(all_songs)
 
-    console.log (userPlaylists)
+    console.log (artist_count)
 };
 
 main();
