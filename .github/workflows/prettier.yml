@@ -17,4 +17,11 @@ jobs:
                 node-version: 18
             
             - run: npm ci
-            - run: npm run format_check
+            - run: npm run format
+              env:
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+            - uses: stefanzweifel/git-auto-commit-action@v4
+              if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
+              with:
+                commit_message: "format files"
