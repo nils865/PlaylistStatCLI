@@ -3,6 +3,7 @@
 	"version": "1.0.0",
 	"description": "CLI Tool for getting Statistics on Spotify Playlists ",
 	"main": "src/index.js",
+	"type":"module",
 	"scripts": {
 		"start": "node src/index.js",
 		"format": "npx prettier . --write",

@@ -1,4 +1,6 @@
-require('dotenv').config();
+import dotenv from 'dotenv'
+
+dotenv.config()
 
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
@@ -142,21 +144,18 @@ const get_all_user_songs = async (playlists, token) => {
 	return all_songs;
 };
 
-const main = async _ => {
-	const token = await get_access_token();
+const token = await get_access_token();
 
-	// const playlistID = '4NAeFwwinX6tS5RN5voNbg';
-	// const user_playlists = await get_playlist_content(playlistID, token);
+// const playlistID = '4NAeFwwinX6tS5RN5voNbg';
+// const user_playlists = await get_playlist_content(playlistID, token);
 
-	// const artist_count = await artist_counter(user_playlists)
-	// console.log(artist_count);
+// const artist_count = await artist_counter(user_playlists)
+// console.log(artist_count);
 
-	const userID = '31vcslluzy32h77ak63kmdq4uqgq';
-	const userPlaylists = await get_user_playlists(userID, token);
-	const all_songs = await get_all_user_songs(userPlaylists, token);
-	const artist_count = await artist_counter(all_songs);
+const userID = '31vcslluzy32h77ak63kmdq4uqgq';
+const userPlaylists = await get_user_playlists(userID, token);
+const all_songs = await get_all_user_songs(userPlaylists, token);
+const artist_count = await artist_counter(all_songs);
 
-	console.log(sort_object(artist_count));
-};
+console.log(sort_object(artist_count));
 
-main();
