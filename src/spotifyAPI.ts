@@ -1,12 +1,12 @@
-import dotenv from 'dotenv'
+import dotenv from 'dotenv';
 
 export async function get_access_token(): Promise<string> {
-    dotenv.config()
-    
-    const CLIENT_ID = process.env.CLIENT_ID;
-    const CLIENT_SECRET = process.env.CLIENT_SECRET;
+	dotenv.config();
 
-    const credentials = `${CLIENT_ID}:${CLIENT_SECRET}`;
+	const CLIENT_ID = process.env.CLIENT_ID;
+	const CLIENT_SECRET = process.env.CLIENT_SECRET;
+
+	const credentials = `${CLIENT_ID}:${CLIENT_SECRET}`;
 	const encoded_credentials = Buffer.from(credentials).toString('base64');
 
 	const url = 'https://accounts.spotify.com/api/token';
@@ -28,16 +28,16 @@ export async function get_access_token(): Promise<string> {
 }
 
 export async function spotify_get_request(url: string, token: string) {
-    const full_url = 'https://api.spotify.com/v1' + url
+	const full_url = 'https://api.spotify.com/v1' + url;
 
-    const authOptions = {
+	const authOptions = {
 		method: 'GET',
 		headers: {
 			Authorization: `Bearer ${token}`,
 		},
 	};
 
-    const response = await fetch(full_url, authOptions);
+	const response = await fetch(full_url, authOptions);
 	const data = await response.json();
 
 	if (response.ok) return data;
