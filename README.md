@@ -13,6 +13,6 @@ Showing Artists with most Songs in a Playlist or all User Playlists
 - [X] Implementing API Calls
 - [X] Implement Auto Formatting
 - [ ] Adding a proper CLI
-- [ ] More Modularization
-- [ ] Migrating to Typescript
+- [X] More Modularization
+- [X] Migrating to Typescript
 - [ ] More Stats
