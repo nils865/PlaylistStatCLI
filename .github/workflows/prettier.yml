@@ -17,4 +17,4 @@ jobs:
                 node-version: 18
             
             - run: npm ci
-            - run: npm run format
+            - run: npm run format_check
