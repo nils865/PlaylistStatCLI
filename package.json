@@ -2,7 +2,7 @@
 	"name": "playliststatcli",
 	"version": "1.0.0",
 	"description": "CLI Tool for getting Statistics on Spotify Playlists ",
-	"main": "src/index.ts",
+	"main": "src/index.js",
 	"type": "module",
 	"scripts": {
 		"build": "tsc",
