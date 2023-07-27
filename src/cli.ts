@@ -59,7 +59,7 @@ export async function run_analysis(scope: StatType, id: string) {
 }
 
 export function display_artist_scoreboard(scoreboard: { [ artist: string ]: number }) {
-    console.log('\n---- Artist Leaderboard ----\n')
+    console.log(`\n---- ${chalk.magenta('Artist Leaderboard')} ----`)
 
     let i = 0
     for (const artist in sort_object(scoreboard)) {
