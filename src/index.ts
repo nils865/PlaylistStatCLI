@@ -1,11 +1,4 @@
-import dotenv from 'dotenv'
-
-dotenv.config()
-
-const CLIENT_ID = process.env.CLIENT_ID;
-const CLIENT_SECRET = process.env.CLIENT_SECRET;
-
-const URL_BASE = 'https://api.spotify.com/v1';
+import { get_access_token, spotify_get_request } from './spotifyAPI.js';
 
 const sort_object = (obj: { [key: string]: number }) => {
 	const keyValueArray = Object.entries(obj);
@@ -15,46 +8,8 @@ const sort_object = (obj: { [key: string]: number }) => {
 	return Object.fromEntries(keyValueArray);
 };
 
-const get_access_token = async () => {
-	const credentials = `${CLIENT_ID}:${CLIENT_SECRET}`;
-	const encoded_credentials = Buffer.from(credentials).toString('base64');
-
-	const url = 'https://accounts.spotify.com/api/token';
-
-	const authOptions = {
-		method: 'POST',
-		headers: {
-			Authorization: `Basic ${encoded_credentials}`,
-			'Content-Type': 'application/x-www-form-urlencoded',
-		},
-		body: 'grant_type=client_credentials',
-	};
-
-	const response = await fetch(url, authOptions);
-	const data = await response.json();
-
-	if (response.ok) return data.access_token;
-	else throw new Error('Failed to fetch');
-};
-
-const spotify_get = async (url, token) => {
-	const full_url = URL_BASE + url;
-	const authOptions = {
-		method: 'GET',
-		headers: {
-			Authorization: `Bearer ${token}`,
-		},
-	};
-
-	const response = await fetch(full_url, authOptions);
-	const data = await response.json();
-
-	if (response.ok) return data;
-	else throw new Error(`Get request to ${url} failed!`);
-};
-
 const get_playlist_content = async (playlistID, token) => {
-	const data = await spotify_get(`/playlists/${playlistID}/tracks`, token);
+	const data = await spotify_get_request(`/playlists/${playlistID}/tracks`, token);
 
 	const playlist = [];
 
@@ -119,7 +74,7 @@ const artist_counter = async playlist => {
 const get_user_playlists = async (userID, token) => {
 	const playlists = [];
 
-	const data = (await spotify_get(`/users/${userID}/playlists`, token)).items;
+	const data = (await spotify_get_request(`/users/${userID}/playlists`, token)).items;
 
 	data.forEach(playlist => {
 		playlists.push(playlist.id);
