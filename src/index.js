@@ -68,12 +68,34 @@ const get_playlist_content = async (playlistID, token) => {
 	return playlist;
 };
 
+const artist_counter = async playlist => {
+    const artists = {}
+    const finished_songs = []
+
+    for (let i = 0; i < playlist.length; i++) {
+        const song = playlist[i]
+
+        if (song in finished_songs) continue
+
+        song.artists.forEach(artist => {
+            if (artist in artists) artists[artist]++
+            else artists[artist] = 1
+        });
+
+        finished_songs.push(song)
+    }
+
+    return artists;
+}
+
 const main = async _ => {
 	const token = await get_access_token();
 
 	const playlistID = '4NAeFwwinX6tS5RN5voNbg';
 	const user_playlists = await get_playlist_content(playlistID, token);
-	console.log(user_playlists);
+
+    const artist_count = await artist_counter(user_playlists)
+	console.log(artist_count);
 };
 
 main();
