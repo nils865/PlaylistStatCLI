@@ -15,7 +15,7 @@ const sort_object = obj => {
 	return Object.fromEntries(keyValueArray);
 };
 
-const get_access_token = async _ => {
+const get_access_token = async () => {
 	const credentials = `${CLIENT_ID}:${CLIENT_SECRET}`;
 	const encoded_credentials = Buffer.from(credentials).toString('base64');
 
