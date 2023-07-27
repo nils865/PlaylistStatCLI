@@ -7,7 +7,7 @@ const CLIENT_SECRET = process.env.CLIENT_SECRET;
 
 const URL_BASE = 'https://api.spotify.com/v1';
 
-const sort_object = obj => {
+const sort_object = (obj: { [key: string]: number }) => {
 	const keyValueArray = Object.entries(obj);
 
 	keyValueArray.sort((a, b) => b[1] - a[1]);
