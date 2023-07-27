@@ -151,7 +151,7 @@ const main = async _ => {
 	// const artist_count = await artist_counter(user_playlists)
 	// console.log(artist_count);
 
-	const userID = 'mdv3fel5oloqvac6ur3jm2rn0';
+	const userID = '31vcslluzy32h77ak63kmdq4uqgq';
 	const userPlaylists = await get_user_playlists(userID, token);
 	const all_songs = await get_all_user_songs(userPlaylists, token);
 	const artist_count = await artist_counter(all_songs);
