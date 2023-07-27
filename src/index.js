@@ -88,14 +88,31 @@ const artist_counter = async playlist => {
     return artists;
 }
 
+const get_user_playlists = async (userID, token) => {
+    const playlists = []
+
+    const data = (await spotify_get(`/users/${userID}/playlists`, token)).items
+
+    data.forEach(playlist => {
+        playlists.push(playlist.id)
+    })
+
+    return playlists;
+}
+
 const main = async _ => {
 	const token = await get_access_token();
 
-	const playlistID = '4NAeFwwinX6tS5RN5voNbg';
-	const user_playlists = await get_playlist_content(playlistID, token);
+	// const playlistID = '4NAeFwwinX6tS5RN5voNbg';
+	// const user_playlists = await get_playlist_content(playlistID, token);
 
-    const artist_count = await artist_counter(user_playlists)
-	console.log(artist_count);
+    // const artist_count = await artist_counter(user_playlists)
+	// console.log(artist_count);
+
+    const userID = '31vcslluzy32h77ak63kmdq4uqgq'
+    const userPlaylists = await get_user_playlists(userID, token)
+
+    console.log (userPlaylists)
 };
 
 main();
