@@ -1,17 +1,19 @@
-import { artist_counter, sort_object } from './analysis/dataHandling.js';
-import { get_access_token } from './spotifyAPI.js';
-import { get_all_user_songs, get_user_playlists } from './analysis/userData.js';
+import chalk from 'chalk';
+import {
+	display_artist_scoreboard,
+	get_id,
+	run_analysis,
+	select_stats,
+} from './cli.js';
 
-const token = await get_access_token();
+console.log(
+	`Welcome to ${chalk.green('Your favourite Spotify Analytics CLI')}`,
+);
 
-// const playlistID = '4NAeFwwinX6tS5RN5voNbg';
-// const user_playlists = await get_playlist_content(playlistID, token);
+const scope = await select_stats();
 
-// const artist_count = await artist_counter(user_playlists)
+const id = await get_id(scope);
 
-const userID = '31vcslluzy32h77ak63kmdq4uqgq';
-const userPlaylists = await get_user_playlists(userID, token);
-const all_songs = await get_all_user_songs(userPlaylists, token);
-const artist_count = await artist_counter(all_songs);
+const data = await run_analysis(scope, id);
 
-console.log(sort_object(artist_count));
+display_artist_scoreboard(data);
