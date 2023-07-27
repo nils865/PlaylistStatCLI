@@ -6,12 +6,12 @@ const CLIENT_SECRET = process.env.CLIENT_SECRET;
 const URL_BASE = 'https://api.spotify.com/v1';
 
 const sort_object = obj => {
-    const keyValueArray = Object.entries(obj)
+	const keyValueArray = Object.entries(obj);
 
-    keyValueArray.sort((a, b) => b[1] - a[1])
+	keyValueArray.sort((a, b) => b[1] - a[1]);
 
-    return Object.fromEntries(keyValueArray)
-}
+	return Object.fromEntries(keyValueArray);
+};
 
 const get_access_token = async _ => {
 	const credentials = `${CLIENT_ID}:${CLIENT_SECRET}`;
@@ -54,93 +54,93 @@ const spotify_get = async (url, token) => {
 const get_playlist_content = async (playlistID, token) => {
 	const data = await spotify_get(`/playlists/${playlistID}/tracks`, token);
 
-    const playlist = []
+	const playlist = [];
 
-    for (let i = 0; i < data.items.length; i++) {
-        const song = data.items[i].track
+	for (let i = 0; i < data.items.length; i++) {
+		const song = data.items[i].track;
 
-        if (song == null) continue
+		if (song == null) continue;
 
-        const current_song = {
-            'title': song.name,
-            'artists': []
-        }
+		const current_song = {
+			title: song.name,
+			artists: [],
+		};
 
-        for(let j = 0; j < song.artists.length; j++) {
-            current_song.artists.push(song.artists[j].name)
-        }
+		for (let j = 0; j < song.artists.length; j++) {
+			current_song.artists.push(song.artists[j].name);
+		}
 
-        playlist.push(current_song)
-    }
+		playlist.push(current_song);
+	}
 
 	return playlist;
 };
 
 const artist_counter = async playlist => {
-    const artists = {}
-    const finished_songs = []
+	const artists = {};
+	const finished_songs = [];
 
-    for (let i = 0; i < playlist.length; i++) {
-        const song = playlist[i]
+	for (let i = 0; i < playlist.length; i++) {
+		const song = playlist[i];
 
-        let skip = false
-        finished_songs.forEach(current_song => {
-            if (current_song.title === song.title) {
-                let next = false
+		let skip = false;
+		finished_songs.forEach(current_song => {
+			if (current_song.title === song.title) {
+				let next = false;
 
-                for (let j = 0; j < current_song.artists.length; j++) {
-                    if (current_song.artists[j] !== song.artists[j]) {
-                        next = true
-                        break
-                    }
-                }
+				for (let j = 0; j < current_song.artists.length; j++) {
+					if (current_song.artists[j] !== song.artists[j]) {
+						next = true;
+						break;
+					}
+				}
 
-                if (!next) {
-                    skip = true
-                }
-            }
-        })
+				if (!next) {
+					skip = true;
+				}
+			}
+		});
 
-        if (skip) continue
+		if (skip) continue;
 
-        song.artists.forEach(artist => {
-            if (artist in artists) artists[artist]++
-            else artists[artist] = 1
-        });
+		song.artists.forEach(artist => {
+			if (artist in artists) artists[artist]++;
+			else artists[artist] = 1;
+		});
 
-        finished_songs.push(song)
-    }
+		finished_songs.push(song);
+	}
 
-    return artists;
-}
+	return artists;
+};
 
 const get_user_playlists = async (userID, token) => {
-    const playlists = []
+	const playlists = [];
 
-    const data = (await spotify_get(`/users/${userID}/playlists`, token)).items
+	const data = (await spotify_get(`/users/${userID}/playlists`, token)).items;
 
-    data.forEach(playlist => {
-        playlists.push(playlist.id)
-    })
+	data.forEach(playlist => {
+		playlists.push(playlist.id);
+	});
 
-    return playlists;
-}
+	return playlists;
+};
 
 const get_all_user_songs = async (playlists, token) => {
-    const all_songs = []
+	const all_songs = [];
 
-    for (let i = 0; i < playlists.length; i++) {
-        const id = playlists[i];
+	for (let i = 0; i < playlists.length; i++) {
+		const id = playlists[i];
 
-        const content = await get_playlist_content(id, token)
-        
-        content.forEach(song => {
-            all_songs.push(song)
-        })
-    }
+		const content = await get_playlist_content(id, token);
 
-    return all_songs
-}
+		content.forEach(song => {
+			all_songs.push(song);
+		});
+	}
+
+	return all_songs;
+};
 
 const main = async _ => {
 	const token = await get_access_token();
@@ -148,15 +148,15 @@ const main = async _ => {
 	// const playlistID = '4NAeFwwinX6tS5RN5voNbg';
 	// const user_playlists = await get_playlist_content(playlistID, token);
 
-    // const artist_count = await artist_counter(user_playlists)
+	// const artist_count = await artist_counter(user_playlists)
 	// console.log(artist_count);
 
-    const userID = '31vcslluzy32h77ak63kmdq4uqgq'
-    const userPlaylists = await get_user_playlists(userID, token)
-    const all_songs = await get_all_user_songs(userPlaylists, token)
-    const artist_count = await artist_counter(all_songs)
+	const userID = 'mdv3fel5oloqvac6ur3jm2rn0';
+	const userPlaylists = await get_user_playlists(userID, token);
+	const all_songs = await get_all_user_songs(userPlaylists, token);
+	const artist_count = await artist_counter(all_songs);
 
-    console.log(sort_object(artist_count))
+	console.log(sort_object(artist_count));
 };
 
 main();
