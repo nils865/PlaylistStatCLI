@@ -5,7 +5,8 @@
 	"main": "src/index.js",
 	"type": "module",
 	"scripts": {
-		"start": "node src/index.js",
+		"build": "tsc",
+		"debug": "npm run build && node dist/index.js",
 		"format": "npx prettier . --write",
 		"format_check": "npx prettier . --check"
 	},
@@ -16,6 +17,8 @@
 		"dotenv": "^16.3.1"
 	},
 	"devDependencies": {
-		"prettier": "^3.0.0"
+		"@types/node": "^20.4.5",
+		"prettier": "^3.0.0",
+		"typescript": "^5.1.6"
 	}
 }
