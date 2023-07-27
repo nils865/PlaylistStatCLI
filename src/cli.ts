@@ -1,9 +1,10 @@
 import inquirer from 'inquirer'
 import { get_access_token } from './spotifyAPI.js'
 import { get_playlist_content } from './analysis/playlistaData.js'
-import { Song, artist_counter } from './analysis/dataHandling.js'
+import { Song, artist_counter, sort_object } from './analysis/dataHandling.js'
 import { get_all_user_songs, get_user_playlists } from './analysis/userData.js'
 import { createSpinner } from 'nanospinner'
+import chalk from 'chalk'
 
 export type StatType = "User" | "Playlist"
 
@@ -36,7 +37,7 @@ export async function run_analysis(scope: StatType, id: string) {
     let songList: Song[]
 
     const spinner = createSpinner('Get Data from spotify').start()
-    let artist_count
+    let scoreboard: { [ artist: string ]: number }
 
     try {
         if (scope === 'Playlist') {
@@ -46,7 +47,7 @@ export async function run_analysis(scope: StatType, id: string) {
             songList = await get_all_user_songs(userPlaylists, token);
         } else return
 
-        artist_count = await artist_counter(songList)
+        scoreboard = await artist_counter(songList)
 
         spinner.success()
     } catch (error) {
@@ -54,5 +55,19 @@ export async function run_analysis(scope: StatType, id: string) {
         process.exit(1)
     }
 
-    return artist_count
+    return scoreboard
+}
+
+export function display_artist_scoreboard(scoreboard: { [ artist: string ]: number }) {
+    console.log('\n---- Artist Leaderboard ----\n')
+
+    let i = 0
+    for (const artist in sort_object(scoreboard)) {
+        const name = i % 2 == 0 ? chalk.blue(artist) : chalk.green(artist)
+        const score = chalk.yellow(scoreboard[artist])
+        
+        console.log(`${name} ${chalk.grey("-")} ${score}`)
+
+        i++
+    }
 }
