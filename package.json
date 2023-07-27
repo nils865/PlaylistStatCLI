@@ -6,9 +6,9 @@
 	"type": "module",
 	"scripts": {
 		"build": "tsc",
-		"debug": "npm run build && node dist/index.js",
-		"format": "npx prettier . --write",
-		"format_check": "npx prettier . --check"
+		"debug": "pnpm run build && node dist/index.js",
+		"format": "pnpx prettier . --write",
+		"format_check": "pnpx prettier . --check"
 	},
 	"keywords": [],
 	"author": "",
