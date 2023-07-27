@@ -46,7 +46,26 @@ const spotify_get = async (url, token) => {
 const get_playlist_content = async (playlistID, token) => {
 	const data = await spotify_get(`/playlists/${playlistID}/tracks`, token);
 
-	return data;
+    const playlist = []
+
+    for (let i = 0; i < data.items.length; i++) {
+        const song = data.items[i].track
+
+        if (song == null) continue
+
+        const current_song = {
+            'title': song.name,
+            'artists': []
+        }
+
+        for(let j = 0; j < song.artists.length; j++) {
+            current_song.artists.push(song.artists[j].name)
+        }
+
+        playlist.push(current_song)
+    }
+
+	return playlist;
 };
 
 const main = async _ => {
