@@ -1,7 +1,7 @@
 {
 	"name": "playliststatcli",
 	"version": "1.0.0",
-	"description": "",
+	"description": "CLI Tool for getting Statistics on Spotify Playlists ",
 	"main": "src/index.js",
 	"scripts": {
 		"start": "node src/index.js",
