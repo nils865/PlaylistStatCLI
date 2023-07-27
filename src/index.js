@@ -1,6 +1,6 @@
-import dotenv from 'dotenv'
+import dotenv from 'dotenv';
 
-dotenv.config()
+dotenv.config();
 
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
@@ -158,4 +158,3 @@ const all_songs = await get_all_user_songs(userPlaylists, token);
 const artist_count = await artist_counter(all_songs);
 
 console.log(sort_object(artist_count));
-
