@@ -16,6 +16,7 @@ export async function get_playlist_content(playlistID: string, token: string) {
 
 		const current_song: Song = {
 			title: song.name,
+			album: song.album.name,
 			artists: [],
 		};
 

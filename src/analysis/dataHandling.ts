@@ -1,5 +1,6 @@
 export type Song = {
 	title: string;
+	album: string,
 	artists: string[];
 };
 
