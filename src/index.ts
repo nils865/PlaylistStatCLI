@@ -60,7 +60,6 @@ try {
 
 		} else if (analysis_type === 'Song List') {
 			
-			
 			spinner.success();
 
 			display_songs(songList)
@@ -73,7 +72,7 @@ try {
 
 		spinner.success()
 
-		console.log(song)
+		console.log(beautify_song(song, chalk.cyan, chalk.yellowBright, chalk.magentaBright))
 	} else throw new Error('Scope not found!')
 } catch (error) {
 	spinner.error({ text: "Couldn't get Data" });
