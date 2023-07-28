@@ -1,4 +1,4 @@
-import { Song, artist_counter, compare_songs } from './dataHandling.js';
+import { Song, compare_songs } from './dataHandling.js';
 import { get_playlist_content } from './playlistaData.js';
 import { spotify_get_request } from '../spotifyAPI.js';
 

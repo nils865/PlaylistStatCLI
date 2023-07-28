@@ -1,4 +1,4 @@
-import { Song, artist_counter } from './dataHandling.js';
+import { Song } from './dataHandling.js';
 import { spotify_get_request } from '../spotifyAPI.js';
 
 export async function get_playlist_content(playlistID: string, token: string) {
