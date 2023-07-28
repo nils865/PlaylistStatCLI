@@ -14,13 +14,10 @@ console.log(
 );
 
 const scope = await select_stats();
-
 const id = await get_id(scope);
-
 const token = await get_access_token();
 
-let data
-
+let data: { [key: string]: number }
 if (scope === 'Playlist') {
 	data = await analyze_playlist(id, token)
 } else if (scope === 'User') {
