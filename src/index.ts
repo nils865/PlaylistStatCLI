@@ -1,6 +1,7 @@
 import chalk from 'chalk';
 import {
 	display_artist_scoreboard,
+	filter_for_artist,
 	get_id,
 	playlist_prompt,
 	select_stats,
@@ -42,6 +43,14 @@ try {
 			spinner.success();
 
 			display_songs(songList)
+
+		} else if (analysis_type === 'Filter for Artist') {
+			const filteredSongList = await filter_for_artist(songList)
+
+			spinner.success()
+
+			display_songs(filteredSongList)
+
 		} else throw new Error('Wrong Analysis Type')
 	} else if (scope === 'User') {
 		const analysis_type = await user_prompt();
@@ -63,6 +72,14 @@ try {
 			spinner.success();
 
 			display_songs(songList)
+
+		} else if (analysis_type === 'Filter for Artist') {
+			const filteredSongList = await filter_for_artist(songList)
+
+			spinner.success()
+
+			display_songs(filteredSongList)
+
 		} else throw new Error('Wrong Analysis Type')
 
 	} else if (scope === 'Song') {

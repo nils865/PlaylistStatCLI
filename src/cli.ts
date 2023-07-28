@@ -1,5 +1,5 @@
 import inquirer from 'inquirer';
-import { sort_object } from './analysis/dataHandling.js';
+import { Song, sort_object } from './analysis/dataHandling.js';
 import chalk from 'chalk';
 
 export type StatType = 'User' | 'Playlist' | 'Song';
@@ -41,24 +41,30 @@ export function display_artist_scoreboard(scoreboard: {
 	}
 }
 
-export async function playlist_prompt(): Promise<'Song List' | 'Artist Scoreboard'> {
+export async function playlist_prompt(): Promise<'Song List' | 'Artist Scoreboard' | 'Filter for Artist'> {
 	const answers = await inquirer.prompt({
 		name: 'analysis_type',
 		type: 'list',
 		message: 'Select your Output',
-		choices: ['Song List', 'Artist Scoreboard'],
+		choices: ['Song List', 'Artist Scoreboard', 'Filter for Artist'],
 	});
 
 	return answers.analysis_type;
 }
 
-export async function user_prompt(): Promise<'Song List' | 'Artist Scoreboard'> {
+export async function user_prompt(): Promise<'Song List' | 'Artist Scoreboard' | 'Filter for Artist'> {
 	const answers = await inquirer.prompt({
 		name: 'analysis_type',
 		type: 'list',
 		message: 'Select your Output',
-		choices: ['Song List', 'Artist Scoreboard'],
+		choices: ['Song List', 'Artist Scoreboard', 'Filter for Artist'],
 	});
 
 	return answers.analysis_type;
+}
+
+export async function filter_for_artist(songList: Song[]): Promise<Song[]> {
+	const filteredSongList = []
+
+	return filteredSongList;
 }
