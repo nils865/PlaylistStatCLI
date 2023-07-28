@@ -8,6 +8,8 @@ export function beautify_song(song: Song, title_color: (str: string) => string, 
 }
 
 export function display_songs(list: Song[]) {
+    console.log(`\n---- ${chalk.magenta('Song List')} ----`);
+
     for (let i = 0; i < list.length; i++) {
         const song = list[i]
         const title_color: (str: string) => string = i % 2 ? chalk.cyan : chalk.greenBright
