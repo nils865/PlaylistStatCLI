@@ -70,3 +70,17 @@ export function display_artist_scoreboard(scoreboard: {
 		i++;
 	}
 }
+
+export async function analyze_playlist(id: string, token: string) {
+	const songList = await get_playlist_content(id, token);
+
+	return await artist_counter(songList)
+}
+
+export async function analayze_user(id: string, token: string) {
+	const userPlaylists = await get_user_playlists(id, token);
+
+	const songList = await get_all_user_songs(userPlaylists, token);
+
+	return await artist_counter(songList)
+}
