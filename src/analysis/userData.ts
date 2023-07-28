@@ -37,11 +37,3 @@ export async function get_all_user_songs(playlists: string[], token: string) {
 
 	return all_songs;
 }
-
-export async function analyze_user(id: string, token: string) {
-	const userPlaylists = await get_user_playlists(id, token);
-
-	const songList = await get_all_user_songs(userPlaylists, token);
-
-	return await artist_counter(songList)
-}

@@ -8,9 +8,9 @@ import {
 } from './cli.js';
 import { get_access_token } from './spotifyAPI.js';
 import { Spinner, createSpinner } from 'nanospinner';
-import { Song } from './analysis/dataHandling.js';
-import { analyze_playlist, get_playlist_content } from './analysis/playlistaData.js';
-import { get_all_user_songs, get_user_playlists, analyze_user } from './analysis/userData.js';
+import { Song, artist_counter } from './analysis/dataHandling.js';
+import { get_playlist_content } from './analysis/playlistaData.js';
+import { get_all_user_songs, get_user_playlists } from './analysis/userData.js';
 import { display_songs } from './analysis/songData.js';
 
 console.log(
@@ -29,15 +29,15 @@ try {
 		
 		spinner = createSpinner('Get Data from Spotify').start();
 
+		const songList: Song[] = await get_playlist_content(id, token)
+
 		if (analysis_type === 'Artist Scoreboard') {
-			const data = await analyze_playlist(id, token)
+			const data = await artist_counter(songList)
 
 			spinner.success();
 
 			display_artist_scoreboard(data);
 		} else if (analysis_type === 'Song List') {
-			const songList: Song[] = await get_playlist_content(id, token)
-			
 			spinner.success();
 
 			display_songs(songList)
@@ -47,17 +47,18 @@ try {
 
 		spinner = createSpinner('Get Data from Spotify').start();
 
+		const userPlaylists = await get_user_playlists(id, token)
+		const songList: Song[] = await get_all_user_songs(userPlaylists, token)
+
 		if (analysis_type === 'Artist Scoreboard') {
-			const data = await analyze_user(id, token)
+			const data = await artist_counter(songList)
 
 			spinner.success();
 
 			display_artist_scoreboard(data);
 
 		} else if (analysis_type === 'Song List') {
-			const userPlaylists = await get_user_playlists(id, token)
-
-			const songList: Song[] = await get_all_user_songs(userPlaylists, token)
+			
 			
 			spinner.success();
 

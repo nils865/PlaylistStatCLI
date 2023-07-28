@@ -29,9 +29,3 @@ export async function get_playlist_content(playlistID: string, token: string) {
 
 	return playlist;
 }
-
-export async function analyze_playlist(id: string, token: string) {
-	const songList = await get_playlist_content(id, token);
-
-	return await artist_counter(songList)
-}
