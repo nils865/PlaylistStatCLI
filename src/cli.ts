@@ -66,5 +66,27 @@ export async function user_prompt(): Promise<'Song List' | 'Artist Scoreboard' |
 export async function filter_for_artist(songList: Song[]): Promise<Song[]> {
 	const filteredSongList = []
 
+	const answers = await inquirer.prompt({
+		name: 'name',
+		type: 'input',
+		message: `Enter the Artist Name`,
+	});
+
+	const artistName: string = answers.name
+
+	console.log(artistName)
+
+	for (let i = 0; i < songList.length; i++) {
+		const song = songList[i]
+
+		// if (artistName in song.artists) {
+		// 	filteredSongList.push(song)
+		// }
+
+		song.artists.forEach(artist => {
+			if (artist === artistName) filteredSongList.push(song)
+		})
+	}
+
 	return filteredSongList;
 }

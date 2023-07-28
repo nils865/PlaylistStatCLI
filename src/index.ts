@@ -45,9 +45,9 @@ try {
 			display_songs(songList)
 
 		} else if (analysis_type === 'Filter for Artist') {
-			const filteredSongList = await filter_for_artist(songList)
-
 			spinner.success()
+
+			const filteredSongList = await filter_for_artist(songList)
 
 			display_songs(filteredSongList)
 
@@ -74,9 +74,9 @@ try {
 			display_songs(songList)
 
 		} else if (analysis_type === 'Filter for Artist') {
-			const filteredSongList = await filter_for_artist(songList)
-
 			spinner.success()
+
+			const filteredSongList = await filter_for_artist(songList)
 
 			display_songs(filteredSongList)
 
