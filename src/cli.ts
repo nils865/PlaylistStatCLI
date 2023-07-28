@@ -40,3 +40,25 @@ export function display_artist_scoreboard(scoreboard: {
 		i++;
 	}
 }
+
+export async function playlist_prompt(): Promise<'Song List' | 'Artist Scoreboard'> {
+	const answers = await inquirer.prompt({
+		name: 'analysis_type',
+		type: 'list',
+		message: 'Select your Output',
+		choices: ['Song List', 'Artist Scoreboard'],
+	});
+
+	return answers.analysis_type;
+}
+
+export async function user_prompt(): Promise<'Song List' | 'Artist Scoreboard'> {
+	const answers = await inquirer.prompt({
+		name: 'analysis_type',
+		type: 'list',
+		message: 'Select your Output',
+		choices: ['Song List', 'Artist Scoreboard'],
+	});
+
+	return answers.analysis_type;
+}
