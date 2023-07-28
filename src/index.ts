@@ -11,7 +11,7 @@ import { Spinner, createSpinner } from 'nanospinner';
 import { Song, artist_counter } from './analysis/dataHandling.js';
 import { get_playlist_content } from './analysis/playlistaData.js';
 import { get_all_user_songs, get_user_playlists } from './analysis/userData.js';
-import { display_songs } from './analysis/songData.js';
+import { beautify_song, display_songs } from './analysis/songData.js';
 
 console.log(
 	`Welcome to ${chalk.green('Your favourite Spotify Analytics CLI')}`,
@@ -20,6 +20,7 @@ console.log(
 const scope = await select_stats();
 const id = await get_id(scope);
 const token = await get_access_token();
+const spinnerText = 'Get Data from Spotify...'
 
 let spinner: Spinner
 
@@ -27,7 +28,7 @@ try {
 	if (scope === 'Playlist') {
 		const analysis_type = await playlist_prompt();
 		
-		spinner = createSpinner('Get Data from Spotify').start();
+		spinner = createSpinner(spinnerText).start();
 
 		const songList: Song[] = await get_playlist_content(id, token)
 
@@ -45,7 +46,7 @@ try {
 	} else if (scope === 'User') {
 		const analysis_type = await user_prompt();
 
-		spinner = createSpinner('Get Data from Spotify').start();
+		spinner = createSpinner(spinnerText).start();
 
 		const userPlaylists = await get_user_playlists(id, token)
 		const songList: Song[] = await get_all_user_songs(userPlaylists, token)
@@ -64,6 +65,13 @@ try {
 
 			display_songs(songList)
 		} else throw new Error('Wrong Analysis Type')
+
+	} else if (scope === 'Song') {
+		spinner = createSpinner(spinnerText).start();
+
+		spinner.success()
+
+		console.log("Display your song here!")
 	} else throw new Error('Scope not found!')
 } catch (error) {
 	spinner.error({ text: "Couldn't get Data" });

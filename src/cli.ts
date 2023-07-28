@@ -2,14 +2,14 @@ import inquirer from 'inquirer';
 import { sort_object } from './analysis/dataHandling.js';
 import chalk from 'chalk';
 
-export type StatType = 'User' | 'Playlist';
+export type StatType = 'User' | 'Playlist' | 'Song';
 
 export async function select_stats(): Promise<StatType> {
 	const answers = await inquirer.prompt({
 		name: 'scope',
 		type: 'list',
 		message: 'Select your Scope',
-		choices: ['Playlist', 'User'],
+		choices: ['Playlist', 'User', 'Song'],
 	});
 
 	return answers.scope;
