@@ -8,6 +8,7 @@ import {
 } from './cli.js';
 import { get_access_token } from './spotifyAPI.js';
 import { createSpinner } from 'nanospinner';
+import { ArtistScore } from './analysis/dataHandling.js';
 
 console.log(
 	`Welcome to ${chalk.green('Your favourite Spotify Analytics CLI')}`,
@@ -17,7 +18,7 @@ const scope = await select_stats();
 const id = await get_id(scope);
 const token = await get_access_token();
 
-let data: { [key: string]: number }
+let data: ArtistScore
 
 const spinner = createSpinner('Get Data from Spotify').start();
 
