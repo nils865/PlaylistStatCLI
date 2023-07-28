@@ -1,7 +1,5 @@
 import inquirer from 'inquirer';
-import { get_playlist_content } from './analysis/playlistaData.js';
-import { artist_counter, sort_object } from './analysis/dataHandling.js';
-import { get_all_user_songs, get_user_playlists } from './analysis/userData.js';
+import { sort_object } from './analysis/dataHandling.js';
 import chalk from 'chalk';
 
 export type StatType = 'User' | 'Playlist';
@@ -41,18 +39,4 @@ export function display_artist_scoreboard(scoreboard: {
 
 		i++;
 	}
-}
-
-export async function analyze_playlist(id: string, token: string) {
-	const songList = await get_playlist_content(id, token);
-
-	return await artist_counter(songList)
-}
-
-export async function analayze_user(id: string, token: string) {
-	const userPlaylists = await get_user_playlists(id, token);
-
-	const songList = await get_all_user_songs(userPlaylists, token);
-
-	return await artist_counter(songList)
 }

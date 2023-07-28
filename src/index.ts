@@ -1,7 +1,5 @@
 import chalk from 'chalk';
 import {
-	analayze_user,
-	analyze_playlist,
 	display_artist_scoreboard,
 	get_id,
 	select_stats,
@@ -9,6 +7,8 @@ import {
 import { get_access_token } from './spotifyAPI.js';
 import { createSpinner } from 'nanospinner';
 import { ArtistScore } from './analysis/dataHandling.js';
+import { analyze_playlist } from './analysis/playlistaData.js';
+import { analayze_user } from './analysis/userData.js';
 
 console.log(
 	`Welcome to ${chalk.green('Your favourite Spotify Analytics CLI')}`,
