@@ -11,7 +11,7 @@ import { Spinner, createSpinner } from 'nanospinner';
 import { Song, artist_counter } from './analysis/dataHandling.js';
 import { get_playlist_content } from './analysis/playlistaData.js';
 import { get_all_user_songs, get_user_playlists } from './analysis/userData.js';
-import { beautify_song, display_songs } from './analysis/songData.js';
+import { beautify_song, display_songs, get_song } from './analysis/songData.js';
 
 console.log(
 	`Welcome to ${chalk.green('Your favourite Spotify Analytics CLI')}`,
@@ -69,9 +69,11 @@ try {
 	} else if (scope === 'Song') {
 		spinner = createSpinner(spinnerText).start();
 
+		const song = await get_song(id, token)
+
 		spinner.success()
 
-		console.log("Display your song here!")
+		console.log(song)
 	} else throw new Error('Scope not found!')
 } catch (error) {
 	spinner.error({ text: "Couldn't get Data" });
