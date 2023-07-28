@@ -10,7 +10,7 @@ import { get_access_token } from './spotifyAPI.js';
 import { Spinner, createSpinner } from 'nanospinner';
 import { ArtistScore, Song } from './analysis/dataHandling.js';
 import { analyze_playlist, get_playlist_content } from './analysis/playlistaData.js';
-import { analayze_user, get_all_user_songs, get_user_playlists } from './analysis/userData.js';
+import { anal#yze_user, get_all_user_songs, get_user_playlists } from './analysis/userData.js';
 import { display_songs } from './analysis/songData.js';
 
 console.log(
@@ -48,7 +48,7 @@ try {
 		spinner = createSpinner('Get Data from Spotify').start();
 
 		if (analysis_type === 'Artist Scoreboard') {
-			const data = await analayze_user(id, token)
+			const data = await anal#yze_user(id, token)
 
 			spinner.success();
 
