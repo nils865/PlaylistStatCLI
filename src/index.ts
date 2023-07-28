@@ -4,7 +4,6 @@ import {
 	analyze_playlist,
 	display_artist_scoreboard,
 	get_id,
-	run_analysis,
 	select_stats,
 } from './cli.js';
 import { get_access_token } from './spotifyAPI.js';
@@ -34,7 +33,5 @@ try {
 	spinner.error({ text: "Couldn't get Data" });
 	process.exit(1);
 }
-
-// const data = await run_analysis(scope, id);
 
 display_artist_scoreboard(data);
