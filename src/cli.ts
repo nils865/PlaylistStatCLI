@@ -1,19 +1,15 @@
 import inquirer from 'inquirer';
-import { get_access_token } from './spotifyAPI.js';
-import { get_playlist_content } from './analysis/playlistaData.js';
-import { Song, artist_counter, sort_object } from './analysis/dataHandling.js';
-import { get_all_user_songs, get_user_playlists } from './analysis/userData.js';
-import { createSpinner } from 'nanospinner';
+import { Song, sort_object } from './analysis/dataHandling.js';
 import chalk from 'chalk';
 
-export type StatType = 'User' | 'Playlist';
+export type StatType = 'User' | 'Playlist' | 'Song';
 
 export async function select_stats(): Promise<StatType> {
 	const answers = await inquirer.prompt({
 		name: 'scope',
 		type: 'list',
 		message: 'Select your Scope',
-		choices: ['Playlist', 'User'],
+		choices: ['Playlist', 'User', 'Song'],
 	});
 
 	return answers.scope;
@@ -27,32 +23,6 @@ export async function get_id(scope: StatType): Promise<string> {
 	});
 
 	return answers.id;
-}
-
-export async function run_analysis(scope: StatType, id: string) {
-	const token = await get_access_token();
-	let songList: Song[];
-
-	const spinner = createSpinner('Get Data from spotify').start();
-	let scoreboard: { [artist: string]: number };
-
-	try {
-		if (scope === 'Playlist') {
-			songList = await get_playlist_content(id, token);
-		} else if (scope === 'User') {
-			const userPlaylists = await get_user_playlists(id, token);
-			songList = await get_all_user_songs(userPlaylists, token);
-		} else return;
-
-		scoreboard = await artist_counter(songList);
-
-		spinner.success();
-	} catch (error) {
-		spinner.error({ text: "Couldn't get Data" });
-		process.exit(1);
-	}
-
-	return scoreboard;
 }
 
 export function display_artist_scoreboard(scoreboard: {
@@ -69,4 +39,64 @@ export function display_artist_scoreboard(scoreboard: {
 
 		i++;
 	}
+}
+
+export async function playlist_prompt(): Promise<
+	'Song List' | 'Artist Scoreboard' | 'Filter for Artist'
+> {
+	const answers = await inquirer.prompt({
+		name: 'analysis_type',
+		type: 'list',
+		message: 'Select your Output',
+		choices: ['Song List', 'Artist Scoreboard', 'Filter for Artist'],
+	});
+
+	return answers.analysis_type;
+}
+
+export async function user_prompt(): Promise<
+	'Song List' | 'Artist Scoreboard' | 'Filter for Artist'
+> {
+	const answers = await inquirer.prompt({
+		name: 'analysis_type',
+		type: 'list',
+		message: 'Select your Output',
+		choices: ['Song List', 'Artist Scoreboard', 'Filter for Artist'],
+	});
+
+	return answers.analysis_type;
+}
+
+export async function filter_for_artist(songList: Song[]): Promise<Song[]> {
+	const filteredSongList = [];
+
+	const answers = await inquirer.prompt({
+		name: 'name',
+		type: 'input',
+		message: `Enter the Artist Name`,
+	});
+
+	const artistName: string = answers.name;
+
+	console.log(artistName);
+
+	songList.forEach(song => {
+		song.artists.forEach(artist => {
+			if (artist.toLowerCase() === artistName.toLowerCase())
+				filteredSongList.push(song);
+		});
+	});
+	// for (let i = 0; i < songList.length; i++) {
+	// 	const song = songList[i]
+
+	// 	// if (artistName in song.artists) {
+	// 	// 	filteredSongList.push(song)
+	// 	// }
+
+	// 	song.artists.forEach(artist => {
+	// 		if (artist === artistName) filteredSongList.push(song)
+	// 	})
+	// }
+
+	return filteredSongList;
 }

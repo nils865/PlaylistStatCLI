@@ -1,9 +1,12 @@
 export type Song = {
 	title: string;
+	album: string;
 	artists: string[];
 };
 
-export function sort_object(obj: { [key: string]: number }) {
+export type ArtistScore = { [artist: string]: number };
+
+export function sort_object(obj: ArtistScore): ArtistScore {
 	const keyValueArray = Object.entries(obj);
 
 	keyValueArray.sort((a, b) => b[1] - a[1]);
@@ -24,7 +27,7 @@ export function compare_songs(a: Song, b: Song): boolean {
 }
 
 export async function artist_counter(playlist: Song[]) {
-	const artists: { [key: string]: number } = {};
+	const artists: ArtistScore = {};
 	const finished_songs: Song[] = [];
 
 	for (let i = 0; i < playlist.length; i++) {
