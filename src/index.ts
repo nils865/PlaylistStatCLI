@@ -21,20 +21,20 @@ console.log(
 const scope = await select_stats();
 const id = await get_id(scope);
 const token = await get_access_token();
-const spinnerText = 'Get Data from Spotify...'
+const spinnerText = 'Get Data from Spotify...';
 
-let spinner: Spinner
+let spinner: Spinner;
 
 try {
 	if (scope === 'Playlist') {
 		const analysis_type = await playlist_prompt();
-		
+
 		spinner = createSpinner(spinnerText).start();
 
-		const songList: Song[] = await get_playlist_content(id, token)
+		const songList: Song[] = await get_playlist_content(id, token);
 
 		if (analysis_type === 'Artist Scoreboard') {
-			const data = await artist_counter(songList)
+			const data = await artist_counter(songList);
 
 			spinner.success();
 
@@ -42,55 +42,55 @@ try {
 		} else if (analysis_type === 'Song List') {
 			spinner.success();
 
-			display_songs(songList)
-
+			display_songs(songList);
 		} else if (analysis_type === 'Filter for Artist') {
-			spinner.success()
+			spinner.success();
 
-			const filteredSongList = await filter_for_artist(songList)
+			const filteredSongList = await filter_for_artist(songList);
 
-			display_songs(filteredSongList)
-
-		} else throw new Error('Wrong Analysis Type')
+			display_songs(filteredSongList);
+		} else throw new Error('Wrong Analysis Type');
 	} else if (scope === 'User') {
 		const analysis_type = await user_prompt();
 
 		spinner = createSpinner(spinnerText).start();
 
-		const userPlaylists = await get_user_playlists(id, token)
-		const songList: Song[] = await get_all_user_songs(userPlaylists, token)
+		const userPlaylists = await get_user_playlists(id, token);
+		const songList: Song[] = await get_all_user_songs(userPlaylists, token);
 
 		if (analysis_type === 'Artist Scoreboard') {
-			const data = await artist_counter(songList)
+			const data = await artist_counter(songList);
 
 			spinner.success();
 
 			display_artist_scoreboard(data);
-
 		} else if (analysis_type === 'Song List') {
-			
 			spinner.success();
 
-			display_songs(songList)
-
+			display_songs(songList);
 		} else if (analysis_type === 'Filter for Artist') {
-			spinner.success()
+			spinner.success();
 
-			const filteredSongList = await filter_for_artist(songList)
+			const filteredSongList = await filter_for_artist(songList);
 
-			display_songs(filteredSongList)
-
-		} else throw new Error('Wrong Analysis Type')
-
+			display_songs(filteredSongList);
+		} else throw new Error('Wrong Analysis Type');
 	} else if (scope === 'Song') {
 		spinner = createSpinner(spinnerText).start();
 
-		const song = await get_song(id, token)
+		const song = await get_song(id, token);
 
-		spinner.success()
+		spinner.success();
 
-		console.log(beautify_song(song, chalk.cyan, chalk.yellowBright, chalk.magentaBright))
-	} else throw new Error('Scope not found!')
+		console.log(
+			beautify_song(
+				song,
+				chalk.cyan,
+				chalk.yellowBright,
+				chalk.magentaBright,
+			),
+		);
+	} else throw new Error('Scope not found!');
 } catch (error) {
 	spinner.error({ text: "Couldn't get Data" });
 	process.exit(1);

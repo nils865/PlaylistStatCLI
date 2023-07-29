@@ -1,10 +1,10 @@
 export type Song = {
 	title: string;
-	album: string,
+	album: string;
 	artists: string[];
 };
 
-export type ArtistScore = { [artist: string]: number }
+export type ArtistScore = { [artist: string]: number };
 
 export function sort_object(obj: ArtistScore): ArtistScore {
 	const keyValueArray = Object.entries(obj);

@@ -41,7 +41,9 @@ export function display_artist_scoreboard(scoreboard: {
 	}
 }
 
-export async function playlist_prompt(): Promise<'Song List' | 'Artist Scoreboard' | 'Filter for Artist'> {
+export async function playlist_prompt(): Promise<
+	'Song List' | 'Artist Scoreboard' | 'Filter for Artist'
+> {
 	const answers = await inquirer.prompt({
 		name: 'analysis_type',
 		type: 'list',
@@ -52,7 +54,9 @@ export async function playlist_prompt(): Promise<'Song List' | 'Artist Scoreboar
 	return answers.analysis_type;
 }
 
-export async function user_prompt(): Promise<'Song List' | 'Artist Scoreboard' | 'Filter for Artist'> {
+export async function user_prompt(): Promise<
+	'Song List' | 'Artist Scoreboard' | 'Filter for Artist'
+> {
 	const answers = await inquirer.prompt({
 		name: 'analysis_type',
 		type: 'list',
@@ -64,7 +68,7 @@ export async function user_prompt(): Promise<'Song List' | 'Artist Scoreboard' |
 }
 
 export async function filter_for_artist(songList: Song[]): Promise<Song[]> {
-	const filteredSongList = []
+	const filteredSongList = [];
 
 	const answers = await inquirer.prompt({
 		name: 'name',
@@ -72,15 +76,16 @@ export async function filter_for_artist(songList: Song[]): Promise<Song[]> {
 		message: `Enter the Artist Name`,
 	});
 
-	const artistName: string = answers.name
+	const artistName: string = answers.name;
 
-	console.log(artistName)
+	console.log(artistName);
 
 	songList.forEach(song => {
 		song.artists.forEach(artist => {
-			if (artist.toLowerCase() === artistName.toLowerCase()) filteredSongList.push(song)
-		})
-	})
+			if (artist.toLowerCase() === artistName.toLowerCase())
+				filteredSongList.push(song);
+		});
+	});
 	// for (let i = 0; i < songList.length; i++) {
 	// 	const song = songList[i]
 
