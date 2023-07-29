@@ -76,17 +76,22 @@ export async function filter_for_artist(songList: Song[]): Promise<Song[]> {
 
 	console.log(artistName)
 
-	for (let i = 0; i < songList.length; i++) {
-		const song = songList[i]
-
-		// if (artistName in song.artists) {
-		// 	filteredSongList.push(song)
-		// }
-
+	songList.forEach(song => {
 		song.artists.forEach(artist => {
-			if (artist === artistName) filteredSongList.push(song)
+			if (artist.toLowerCase() === artistName.toLowerCase()) filteredSongList.push(song)
 		})
-	}
+	})
+	// for (let i = 0; i < songList.length; i++) {
+	// 	const song = songList[i]
+
+	// 	// if (artistName in song.artists) {
+	// 	// 	filteredSongList.push(song)
+	// 	// }
+
+	// 	song.artists.forEach(artist => {
+	// 		if (artist === artistName) filteredSongList.push(song)
+	// 	})
+	// }
 
 	return filteredSongList;
 }
