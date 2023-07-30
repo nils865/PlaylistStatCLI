@@ -1,6 +1,11 @@
 import chalk from 'chalk';
 import { Song } from './dataHandling.js';
 import { spotify_get_request } from '../spotifyAPI.js';
+import terminalLink from 'terminal-link';
+
+export function generate_song_link(song: Song): string {
+	return `https://open.spotify.com/track/${song.id}`
+}
 
 export function beautify_song(
 	song: Song,
@@ -10,7 +15,9 @@ export function beautify_song(
 ): string {
 	const artists = song.artists.join(', ');
 
-	return `${title_color(song.title)} - ${artist_color(
+	const link = terminalLink(title_color(song.title), generate_song_link(song))
+
+	return `${link} - ${artist_color(
 		artists,
 	)} - ${album_color(song.album)}`;
 }
@@ -41,6 +48,7 @@ export async function get_song(id: string, token: string): Promise<Song> {
 		title: data.name,
 		album: data.album.name,
 		artists: artists,
+		id: id,
 	};
 
 	return song;

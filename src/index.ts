@@ -14,6 +14,12 @@ import { get_playlist_content } from './analysis/playlistaData.js';
 import { get_all_user_songs, get_user_playlists } from './analysis/userData.js';
 import { beautify_song, display_songs, get_song } from './analysis/songData.js';
 
+import terminalLink from 'terminal-link';
+
+const link = terminalLink('My Website', 'https://sindresorhus.com');
+console.log(link);
+
+
 console.log(
 	`Welcome to ${chalk.green('Your favourite Spotify Analytics CLI')}`,
 );

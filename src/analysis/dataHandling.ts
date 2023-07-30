@@ -2,6 +2,7 @@ export type Song = {
 	title: string;
 	album: string;
 	artists: string[];
+	id: string
 };
 
 export type ArtistScore = { [artist: string]: number };

@@ -18,6 +18,7 @@ export async function get_playlist_content(playlistID: string, token: string) {
 			title: song.name,
 			album: song.album.name,
 			artists: [],
+			id: song.id
 		};
 
 		for (let j = 0; j < song.artists.length; j++) {
