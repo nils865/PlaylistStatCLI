@@ -30,3 +30,11 @@ export async function get_playlist_content(playlistID: string, token: string) {
 
 	return playlist;
 }
+
+export async function convert_to_non_explicit(songList: Song[]): Promise<Song[]> {
+	const filteredSongs: Song[] = [];
+
+	console.log('Converting to Non-Explicit');
+
+	return filteredSongs;
+}

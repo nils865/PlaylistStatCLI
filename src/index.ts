@@ -10,7 +10,7 @@ import {
 import { get_access_token } from './spotifyAPI.js';
 import { Spinner, createSpinner } from 'nanospinner';
 import { Song, artist_counter } from './analysis/dataHandling.js';
-import { get_playlist_content } from './analysis/playlistaData.js';
+import { convert_to_non_explicit, get_playlist_content } from './analysis/playlistaData.js';
 import { get_all_user_songs, get_user_playlists } from './analysis/userData.js';
 import { beautify_song, display_songs, get_song } from './analysis/songData.js';
 
@@ -53,6 +53,13 @@ try {
 			spinner.success();
 
 			const filteredSongList = await filter_for_artist(songList);
+
+			display_songs(filteredSongList);
+
+		} else if (analysis_type === 'Convert to Non-Explicit') {
+			spinner.success();
+
+			const filteredSongList = await convert_to_non_explicit(songList);
 
 			display_songs(filteredSongList);
 		} else throw new Error('Wrong Analysis Type');
