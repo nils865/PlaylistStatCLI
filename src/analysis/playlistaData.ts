@@ -1,5 +1,6 @@
 import { Song } from './dataHandling.js';
 import { spotify_get_request } from '../spotifyAPI.js';
+import { display_songs, get_song } from './songData.js';
 
 export async function get_playlist_content(playlistID: string, token: string) {
 	const data = await spotify_get_request(
@@ -31,8 +32,25 @@ export async function get_playlist_content(playlistID: string, token: string) {
 	return playlist;
 }
 
-export async function convert_to_non_explicit(songList: Song[]): Promise<Song[]> {
+export async function convert_to_non_explicit(songList: Song[], token: string): Promise<Song[]> {
 	const filteredSongs: Song[] = [];
+
+	for (const song of songList) {
+		// console.log(song.title)
+
+		const res = await spotify_get_request(`/search?&type=track&q=track:${song.title}`, token)
+
+		for (const track of res.tracks.items) {
+			// console.log(`${track.name} - ${track.explicit}`)
+
+			if (track.explicit == false) {
+				filteredSongs.push(await get_song(track.id, token))
+				break;
+			}
+		}
+
+		// console.log(res)
+	}
 
 	console.log('Converting to Non-Explicit');
 

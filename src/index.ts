@@ -59,7 +59,7 @@ try {
 		} else if (analysis_type === 'Convert to Non-Explicit') {
 			spinner.success();
 
-			const filteredSongList = await convert_to_non_explicit(songList);
+			const filteredSongList = await convert_to_non_explicit(songList, token);
 
 			display_songs(filteredSongList);
 		} else throw new Error('Wrong Analysis Type');
