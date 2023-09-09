@@ -10,7 +10,7 @@ import {
 import { get_access_token } from './spotifyAPI.js';
 import { Spinner, createSpinner } from 'nanospinner';
 import { Song, artist_counter } from './analysis/dataHandling.js';
-import { convert_to_non_explicit, get_playlist_content } from './analysis/playlistaData.js';
+import { append_playlist, convert_to_non_explicit, get_playlist_content } from './analysis/playlistaData.js';
 import { get_all_user_songs, get_user_playlists } from './analysis/userData.js';
 import { beautify_song, display_songs, get_song } from './analysis/songData.js';
 
@@ -62,6 +62,9 @@ try {
 			spinner.success();
 
 			display_songs(filteredSongList);
+
+			append_playlist(filteredSongList, await get_id(scope));
+
 		} else throw new Error('Wrong Analysis Type');
 	} else if (scope === 'User') {
 		const analysis_type = await user_prompt();

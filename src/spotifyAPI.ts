@@ -43,3 +43,23 @@ export async function spotify_get_request(url: string, token: string) {
 	if (response.ok) return data;
 	else throw new Error(`Get request to ${url} failed!`);
 }
+
+export async function spotify_post_request(url: string) {
+	const full_url = 'https://api.spotify.com/v1' + url;
+
+	const authOptions = {
+		method: 'POST',
+		headers: {
+			Authorization: `Bearer ${process.env.AUTH}`,
+		},
+	};
+
+	const response = await fetch(full_url, authOptions);
+	const data = await response.json();
+
+	if (response.ok) return data;
+	else {
+		console.log(data);
+		throw new Error(`Get request to ${url} failed!`)
+	};
+}

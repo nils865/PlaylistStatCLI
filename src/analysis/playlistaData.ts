@@ -1,5 +1,5 @@
 import { Song } from './dataHandling.js';
-import { spotify_get_request } from '../spotifyAPI.js';
+import { spotify_get_request, spotify_post_request } from '../spotifyAPI.js';
 import { display_songs, get_song } from './songData.js';
 
 export async function get_playlist_content(playlistID: string, token: string) {
@@ -50,4 +50,10 @@ export async function convert_to_non_explicit(songList: Song[], token: string): 
 	}
 
 	return filteredSongs;
+}
+
+export async function append_playlist(songList: Song[], playlist_id: string) {
+	for (const song of songList) {
+		await spotify_post_request(`/playlists/${playlist_id}/tracks?uris=spotify:track:${song.id}`);
+	}
 }
