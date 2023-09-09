@@ -5,6 +5,7 @@ import {
 	get_id,
 	playlist_prompt,
 	select_stats,
+	song_prompt,
 	user_prompt,
 } from './cli.js';
 import { get_access_token } from './spotifyAPI.js';
@@ -12,7 +13,7 @@ import { Spinner, createSpinner } from 'nanospinner';
 import { Song, artist_counter } from './analysis/dataHandling.js';
 import { append_playlist, convert_to_non_explicit, get_playlist_content } from './analysis/playlistaData.js';
 import { get_all_user_songs, get_user_playlists } from './analysis/userData.js';
-import { beautify_song, display_songs, get_song } from './analysis/songData.js';
+import { beautify_song, display_songs, find_non_explicit, get_song } from './analysis/songData.js';
 
 import terminalLink from 'terminal-link';
 
@@ -92,20 +93,41 @@ try {
 			display_songs(filteredSongList);
 		} else throw new Error('Wrong Analysis Type');
 	} else if (scope === 'Song') {
+		const analysis_type = await song_prompt();
+
 		spinner = createSpinner(spinnerText).start();
 
 		const song = await get_song(id, token);
 
 		spinner.success();
 
-		console.log(
-			beautify_song(
-				song,
-				chalk.cyan,
-				chalk.yellowBright,
-				chalk.magentaBright,
-			),
-		);
+		if (analysis_type === 'Display Song') {
+			console.log(
+				beautify_song(
+					song,
+					chalk.cyan,
+					chalk.yellowBright,
+					chalk.magentaBright,
+				),
+			);
+		} else if (analysis_type === 'Non-Explicit') {
+			const non_explicit = await find_non_explicit(song, token);
+
+			if (non_explicit === null) {
+				console.log('No Non-Explicit Version found');
+			} else {
+				console.log(
+					beautify_song(
+						non_explicit,
+						chalk.cyan,
+						chalk.yellowBright,
+						chalk.magentaBright,
+					),
+				);
+			}
+
+		} else throw new Error('Wrong Analysis Type');
+
 	} else throw new Error('Scope not found!');
 } catch (error) {
 	spinner.error({ text: "Couldn't get Data" });

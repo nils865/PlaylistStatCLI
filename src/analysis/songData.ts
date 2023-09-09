@@ -54,3 +54,17 @@ export async function get_song(id: string, token: string): Promise<Song> {
 
 	return song;
 }
+
+export async function find_non_explicit(song: Song, token: string): Promise<Song> {
+	const res = await spotify_get_request(`/search?&limit=25&type=track&q=track:${song.title}`, token)
+
+	for (const item of res.tracks.items) {
+		const track = await get_song(item.id, token)
+
+		if (track.explicit == false && track.title.toLowerCase() == song.title.toLowerCase() && track.artists.join('%69').toLowerCase() == song.artists.join('%69').toLowerCase()) {
+			return track
+		}
+	}
+
+	return null;
+}
