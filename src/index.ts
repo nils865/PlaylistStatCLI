@@ -57,9 +57,9 @@ try {
 			display_songs(filteredSongList);
 
 		} else if (analysis_type === 'Convert to Non-Explicit') {
-			spinner.success();
-
 			const filteredSongList = await convert_to_non_explicit(songList, token);
+
+			spinner.success();
 
 			display_songs(filteredSongList);
 		} else throw new Error('Wrong Analysis Type');
@@ -83,9 +83,9 @@ try {
 			display_songs(songList);
 		} else if (analysis_type === 'Filter for Artist') {
 			spinner.success();
-
+			
 			const filteredSongList = await filter_for_artist(songList);
-
+			
 			display_songs(filteredSongList);
 		} else throw new Error('Wrong Analysis Type');
 	} else if (scope === 'Song') {

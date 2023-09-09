@@ -37,30 +37,17 @@ export async function convert_to_non_explicit(songList: Song[], token: string): 
 	const filteredSongs: Song[] = [];
 
 	for (const song of songList) {
-		console.log(song.title)
-
 		const res = await spotify_get_request(`/search?&limit=10&type=track&q=track:${song.title}`, token)
 
 		for (const item of res.tracks.items) {
 			const track = await get_song(item.id, token)
 
-			//  && track.artists == song.artists
-
-			console.log(`${track.artists.join('%69')} == ${song.artists.join('%69')} = ${track.artists.join('%69') == song.artists.join('%69')}`)
-
 			if (track.explicit == false && track.title.toLowerCase() == song.title.toLowerCase() && track.artists.join('%69').toLowerCase() == song.artists.join('%69').toLowerCase()) {
 				filteredSongs.push(track)
-
-				console.log(track)
-
 				break;
 			}
 		}
-
-		// console.log(res)
 	}
-
-	console.log('Converting to Non-Explicit');
 
 	return filteredSongs;
 }
