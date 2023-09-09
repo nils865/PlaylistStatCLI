@@ -12,7 +12,7 @@ export async function get_playlist_content(playlistID: string, token: string) {
 	for (let i = 0; i < data.items.length; i++) {
 		const song = data.items[i].track;
 
-		if (song == null) continue;
+		if (song == null || song.is_local == true) continue;
 
 		const current_song: Song = {
 			title: song.name,
