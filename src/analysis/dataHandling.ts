@@ -2,7 +2,8 @@ export type Song = {
 	title: string;
 	album: string;
 	artists: string[];
-	id: string
+	id: string;
+	explicit: boolean;
 };
 
 export type ArtistScore = { [artist: string]: number };

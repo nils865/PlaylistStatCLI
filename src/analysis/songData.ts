@@ -49,6 +49,7 @@ export async function get_song(id: string, token: string): Promise<Song> {
 		album: data.album.name,
 		artists: artists,
 		id: id,
+		explicit: data.explicit,
 	};
 
 	return song;
