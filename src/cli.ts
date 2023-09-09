@@ -42,13 +42,21 @@ export function display_artist_scoreboard(scoreboard: {
 }
 
 export async function playlist_prompt(): Promise<
-	'Song List' | 'Artist Scoreboard' | 'Filter for Artist' | 'Convert to Non-Explicit'
+	| 'Song List'
+	| 'Artist Scoreboard'
+	| 'Filter for Artist'
+	| 'Convert to Non-Explicit'
 > {
 	const answers = await inquirer.prompt({
 		name: 'analysis_type',
 		type: 'list',
 		message: 'Select your Output',
-		choices: ['Song List', 'Artist Scoreboard', 'Filter for Artist', 'Convert to Non-Explicit'],
+		choices: [
+			'Song List',
+			'Artist Scoreboard',
+			'Filter for Artist',
+			'Convert to Non-Explicit',
+		],
 	});
 
 	return answers.analysis_type;
@@ -62,6 +70,17 @@ export async function user_prompt(): Promise<
 		type: 'list',
 		message: 'Select your Output',
 		choices: ['Song List', 'Artist Scoreboard', 'Filter for Artist'],
+	});
+
+	return answers.analysis_type;
+}
+
+export async function song_prompt(): Promise<'Display Song' | 'Non-Explicit'> {
+	const answers = await inquirer.prompt({
+		name: 'analysis_type',
+		type: 'list',
+		message: 'Select your Output',
+		choices: ['Display Song', 'Non-Explicit'],
 	});
 
 	return answers.analysis_type;
@@ -86,17 +105,6 @@ export async function filter_for_artist(songList: Song[]): Promise<Song[]> {
 				filteredSongList.push(song);
 		});
 	});
-	// for (let i = 0; i < songList.length; i++) {
-	// 	const song = songList[i]
-
-	// 	// if (artistName in song.artists) {
-	// 	// 	filteredSongList.push(song)
-	// 	// }
-
-	// 	song.artists.forEach(artist => {
-	// 		if (artist === artistName) filteredSongList.push(song)
-	// 	})
-	// }
 
 	return filteredSongList;
 }

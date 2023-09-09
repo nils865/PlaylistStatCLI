@@ -60,6 +60,6 @@ export async function spotify_post_request(url: string) {
 	if (response.ok) return data;
 	else {
 		console.log(data);
-		throw new Error(`Get request to ${url} failed!`)
-	};
+		throw new Error(`Get request to ${url} failed!`);
+	}
 }
