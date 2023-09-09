@@ -33,17 +33,28 @@ export async function get_playlist_content(playlistID: string, token: string) {
 	return playlist;
 }
 
-export async function convert_to_non_explicit(songList: Song[], token: string): Promise<Song[]> {
+export async function convert_to_non_explicit(
+	songList: Song[],
+	token: string,
+): Promise<Song[]> {
 	const filteredSongs: Song[] = [];
 
 	for (const song of songList) {
-		const res = await spotify_get_request(`/search?&limit=10&type=track&q=track:${song.title}`, token)
+		const res = await spotify_get_request(
+			`/search?&limit=10&type=track&q=track:${song.title}`,
+			token,
+		);
 
 		for (const item of res.tracks.items) {
-			const track = await get_song(item.id, token)
+			const track = await get_song(item.id, token);
 
-			if (track.explicit == false && track.title.toLowerCase() == song.title.toLowerCase() && track.artists.join('%69').toLowerCase() == song.artists.join('%69').toLowerCase()) {
-				filteredSongs.push(track)
+			if (
+				track.explicit == false &&
+				track.title.toLowerCase() == song.title.toLowerCase() &&
+				track.artists.join('%69').toLowerCase() ==
+					song.artists.join('%69').toLowerCase()
+			) {
+				filteredSongs.push(track);
 				break;
 			}
 		}
@@ -54,6 +65,8 @@ export async function convert_to_non_explicit(songList: Song[], token: string): 
 
 export async function append_playlist(songList: Song[], playlist_id: string) {
 	for (const song of songList) {
-		await spotify_post_request(`/playlists/${playlist_id}/tracks?uris=spotify:track:${song.id}`);
+		await spotify_post_request(
+			`/playlists/${playlist_id}/tracks?uris=spotify:track:${song.id}`,
+		);
 	}
 }

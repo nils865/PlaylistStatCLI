@@ -42,13 +42,21 @@ export function display_artist_scoreboard(scoreboard: {
 }
 
 export async function playlist_prompt(): Promise<
-	'Song List' | 'Artist Scoreboard' | 'Filter for Artist' | 'Convert to Non-Explicit'
+	| 'Song List'
+	| 'Artist Scoreboard'
+	| 'Filter for Artist'
+	| 'Convert to Non-Explicit'
 > {
 	const answers = await inquirer.prompt({
 		name: 'analysis_type',
 		type: 'list',
 		message: 'Select your Output',
-		choices: ['Song List', 'Artist Scoreboard', 'Filter for Artist', 'Convert to Non-Explicit'],
+		choices: [
+			'Song List',
+			'Artist Scoreboard',
+			'Filter for Artist',
+			'Convert to Non-Explicit',
+		],
 	});
 
 	return answers.analysis_type;

@@ -4,7 +4,7 @@ import { spotify_get_request } from '../spotifyAPI.js';
 import terminalLink from 'terminal-link';
 
 export function generate_song_link(song: Song): string {
-	return `https://open.spotify.com/track/${song.id}`
+	return `https://open.spotify.com/track/${song.id}`;
 }
 
 export function beautify_song(
@@ -15,11 +15,12 @@ export function beautify_song(
 ): string {
 	const artists = song.artists.join(', ');
 
-	const link = terminalLink(title_color(song.title), generate_song_link(song))
+	const link = terminalLink(
+		title_color(song.title),
+		generate_song_link(song),
+	);
 
-	return `${link} - ${artist_color(
-		artists,
-	)} - ${album_color(song.album)}`;
+	return `${link} - ${artist_color(artists)} - ${album_color(song.album)}`;
 }
 
 export function display_songs(list: Song[]) {
@@ -55,14 +56,25 @@ export async function get_song(id: string, token: string): Promise<Song> {
 	return song;
 }
 
-export async function find_non_explicit(song: Song, token: string): Promise<Song> {
-	const res = await spotify_get_request(`/search?&limit=25&type=track&q=track:${song.title}`, token)
+export async function find_non_explicit(
+	song: Song,
+	token: string,
+): Promise<Song> {
+	const res = await spotify_get_request(
+		`/search?&limit=25&type=track&q=track:${song.title}`,
+		token,
+	);
 
 	for (const item of res.tracks.items) {
-		const track = await get_song(item.id, token)
+		const track = await get_song(item.id, token);
 
-		if (track.explicit == false && track.title.toLowerCase() == song.title.toLowerCase() && track.artists.join('%69').toLowerCase() == song.artists.join('%69').toLowerCase()) {
-			return track
+		if (
+			track.explicit == false &&
+			track.title.toLowerCase() == song.title.toLowerCase() &&
+			track.artists.join('%69').toLowerCase() ==
+				song.artists.join('%69').toLowerCase()
+		) {
+			return track;
 		}
 	}
 
